@@ -1,0 +1,26 @@
+# https://taskfile.dev
+
+version: '3'
+
+tasks:
+  test:
+    cmds:
+      - go test ./...
+  run.bot:
+    dotenv: ["{{.TASKFILE_DIR}}/.env"]
+    cmds:
+      - go run ./cmd/main.go
+  run.rcon:
+    dotenv: ["{{.TASKFILE_DIR}}/.env"]
+    cmds:
+      - go run ./cmd/rcon/main.go
+  dev.mongo:
+    cmds:
+      - docker run -p 27017:27017 -d -it --restart always --name dev-mongo mongo
+  dev.mongo.sh:
+    cmds:
+      - docker exec -it dev-mongo mongosh
+  dev.mc:
+    cmds:
+      - docker run --name=dev-mc -p 25565:25565 -p 25575:25575 -d -e VERSION=1.21.8 -e EULA=TRUE -e RCON_PASSWORD=password -e OPS=eepykanna itzg/minecraft-server
+
