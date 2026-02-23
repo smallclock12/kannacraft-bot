@@ -13,7 +13,9 @@ func main() {
 	sigch := make(chan os.Signal, 1)
 
 	db.Connect(internal.Env.ConnectionString)
-	jobs.CheckNamemc()
+
+	jobs.StartJobs()
+	defer jobs.StopJobs()
 	
 	signal.Notify(sigch, os.Interrupt)
 	<-sigch
